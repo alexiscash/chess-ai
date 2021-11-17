@@ -32,8 +32,6 @@ function minimaxRoot(depth, game, isMaximisingPlayer) {
     }
   });
 
-  console.log('best move found: ' + bestMoveFound);
-  console.log('best move value: ' + bestMove);
   return bestMoveFound;
 }
 
