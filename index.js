@@ -192,3 +192,9 @@ const config = {
 };
 
 board = ChessBoard('board1', config);
+
+$('.undo').on('click', () => {
+  game.undo();
+  game.undo();
+  board.position(game.fen());
+});
