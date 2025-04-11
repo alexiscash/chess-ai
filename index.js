@@ -35,21 +35,18 @@ function minimaxRoot(depth, game, isMaximisingPlayer) {
   return bestMoveFound;
 }
 
-var minimax = function (depth, game, alpha, beta, isMaximisingPlayer) {
+function minimax(depth, game, alpha, beta, isMaximisingPlayer) {
   if (depth === 0) {
     return -evaluateBoard(game.board());
   }
 
-  var newGameMoves = game.ugly_moves();
+  let newGameMoves = game.ugly_moves();
 
   if (isMaximisingPlayer) {
-    var bestMove = -9999;
-    for (var i = 0; i < newGameMoves.length; i++) {
+    const bestMove = -9999;
+    for (let i = 0; i < newGameMoves.length; i++) {
       game.ugly_move(newGameMoves[i]);
-      bestMove = Math.max(
-        bestMove,
-        minimax(depth - 1, game, alpha, beta, !isMaximisingPlayer)
-      );
+      bestMove = Math.max(bestMove, minimax(depth - 1, game, alpha, beta, !isMaximisingPlayer));
       game.undo();
       alpha = Math.max(alpha, bestMove);
       if (beta <= alpha) {
@@ -58,13 +55,10 @@ var minimax = function (depth, game, alpha, beta, isMaximisingPlayer) {
     }
     return bestMove;
   } else {
-    var bestMove = 9999;
-    for (var i = 0; i < newGameMoves.length; i++) {
+    const bestMove = 9999;
+    for (let i = 0; i < newGameMoves.length; i++) {
       game.ugly_move(newGameMoves[i]);
-      bestMove = Math.min(
-        bestMove,
-        minimax(depth - 1, game, alpha, beta, !isMaximisingPlayer)
-      );
+      bestMove = Math.min(bestMove, minimax(depth - 1, game, alpha, beta, !isMaximisingPlayer));
       game.undo();
       beta = Math.min(beta, bestMove);
       if (beta <= alpha) {
@@ -73,7 +67,7 @@ var minimax = function (depth, game, alpha, beta, isMaximisingPlayer) {
     }
     return bestMove;
   }
-};
+}
 
 function evaluateBoard(board) {
   let totalEvaluation = 0;
@@ -85,11 +79,11 @@ function evaluateBoard(board) {
   return totalEvaluation;
 }
 
-var getPieceValue = function (piece, x, y) {
+function getPieceValue(piece, x, y) {
   if (piece === null) {
     return 0;
   }
-  var getAbsoluteValue = function (piece, isWhite, x, y) {
+  function getAbsoluteValue(piece, isWhite, x, y) {
     if (piece.type === 'p') {
       return 10 + (isWhite ? pawnEvalWhite[y][x] : pawnEvalBlack[y][x]);
     } else if (piece.type === 'r') {
@@ -104,11 +98,11 @@ var getPieceValue = function (piece, x, y) {
       return 900 + (isWhite ? kingEvalWhite[y][x] : kingEvalBlack[y][x]);
     }
     throw 'Unknown piece type: ' + piece.type;
-  };
+  }
 
-  var absoluteValue = getAbsoluteValue(piece, piece.color === 'w', x, y);
+  const absoluteValue = getAbsoluteValue(piece, piece.color === 'w', x, y);
   return piece.color === 'w' ? absoluteValue : -absoluteValue;
-};
+}
 
 function removeGraySquares() {
   $('#board1 .square-55d63').css('background', '');
@@ -116,9 +110,7 @@ function removeGraySquares() {
 
 function graySquare(square) {
   const $square = $('#board1 .square-' + square);
-  const background = $square.hasClass('black-3c85d')
-    ? blackSquareGrey
-    : whiteSquareGrey;
+  const background = $square.hasClass('black-3c85d') ? blackSquareGrey : whiteSquareGrey;
   $square.css('background', background);
 }
 
@@ -133,7 +125,7 @@ function onDragStart(source, piece, position, orientation) {
 
 //   if (possibleMoves.length === 0) return;
 
-//   var randomIdx = Math.floor(Math.random() * possibleMoves.length);
+//   const randomIdx = Math.floor(Math.random() * possibleMoves.length);
 //   game.move(possibleMoves[randomIdx]);
 //   board.position(game.fen());
 // }
@@ -166,7 +158,7 @@ function onMouseoverSquare(square, piece) {
 
   graySquare(square);
 
-  for (var i = 0; i < moves.length; i++) {
+  for (let i = 0; i < moves.length; i++) {
     graySquare(moves[i].to);
   }
 }
